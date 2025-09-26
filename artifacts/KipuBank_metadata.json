@@ -6,6 +6,70 @@
 	"output": {
 		"abi": [
 			{
+				"inputs": [
+					{
+						"internalType": "uint128",
+						"name": "_banckCap",
+						"type": "uint128"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "DepositNotAllowed",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "ExtractionNotAllowed",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bytes",
+						"name": "errorData",
+						"type": "bytes"
+					}
+				],
+				"name": "ExtractionReverted",
+				"type": "error"
+			},
+			{
 				"anonymous": false,
 				"inputs": [
 					{
@@ -89,19 +153,6 @@
 				"type": "function"
 			},
 			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "amount",
-						"type": "uint256"
-					}
-				],
-				"name": "extract",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
 				"inputs": [],
 				"name": "getBalance",
 				"outputs": [
@@ -113,16 +164,199 @@
 				],
 				"stateMutability": "view",
 				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					}
+				],
+				"name": "getBalance",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "balance_",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getDeposits",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "deposits_",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					}
+				],
+				"name": "getDeposits",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "deposits_",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					}
+				],
+				"name": "getWithdrawals",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "withdrawals_",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getWithdrawals",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "withdrawals_",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "s_bankCap",
+				"outputs": [
+					{
+						"internalType": "uint128",
+						"name": "",
+						"type": "uint128"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "s_withdrawLimit",
+				"outputs": [
+					{
+						"internalType": "uint128",
+						"name": "",
+						"type": "uint128"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "withdraw",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			}
 		],
 		"devdoc": {
+			"author": "Erik Borgnia",
 			"kind": "dev",
-			"methods": {},
+			"methods": {
+				"getBalance(address)": {
+					"details": "Esta función garantiza que toda la información es auditable"
+				},
+				"getDeposits(address)": {
+					"details": "Esta función garantiza que toda la información es auditable"
+				},
+				"getWithdrawals(address)": {
+					"details": "Esta función garantiza que toda la información es auditable"
+				},
+				"withdraw(uint256)": {
+					"details": "Sólo se puede depositar un valor mayor a 0, siempre que no se supere el bankCap",
+					"params": {
+						"amount": "Cantidad que se quiere extraer. Debe ser <= al balance y al límite de extracción"
+					}
+				}
+			},
+			"title": "KipuBank",
 			"version": 1
 		},
 		"userdoc": {
+			"errors": {
+				"DepositNotAllowed(address,uint256)": [
+					{
+						"notice": "error emitido cuando se intenta depositar una cantidad inválida (=0, o la cuenta superaría el bankCap)"
+					}
+				],
+				"ExtractionNotAllowed(address,uint256)": [
+					{
+						"notice": "error emitido cuando se intenta extraer una cantidad inválda (<=0, >=saldo, >límite)"
+					}
+				],
+				"ExtractionReverted(address,uint256,bytes)": [
+					{
+						"notice": "error emitido cuando falla una extracción"
+					}
+				]
+			},
 			"kind": "user",
-			"methods": {},
+			"methods": {
+				"deposit()": {
+					"notice": "Función para hacer un depósitoSólo se puede depositar un valor mayor a 0, siempre que no se supere el bankCap"
+				},
+				"getBalance()": {
+					"notice": "Función pública para ver el balance que uno mismo tiene"
+				},
+				"getBalance(address)": {
+					"notice": "Función pública para ver el balance que algún usuario tiene"
+				},
+				"getDeposits()": {
+					"notice": "Función pública para ver la cantidad de depósitos que uno hizo"
+				},
+				"getDeposits(address)": {
+					"notice": "Función pública para ver la cantidad de depósitos que algún usuario hizo"
+				},
+				"getWithdrawals()": {
+					"notice": "Función pública para ver la cantidad de extracciones que uno hizo"
+				},
+				"getWithdrawals(address)": {
+					"notice": "Función pública para ver la cantidad de extracciones que algún usuario hizo"
+				},
+				"withdraw(uint256)": {
+					"notice": "Función para hacer un depósito"
+				}
+			},
+			"notice": "Contrato para el TP Final del Módulo 2 del curso de EthKipu",
 			"version": 1
 		}
 	},
@@ -143,11 +377,11 @@
 	},
 	"sources": {
 		"contracts/KipuBank.sol": {
-			"keccak256": "0x95d4e98ec74e48812ae9295bc509be13044fdc21aed1c08cbe874137df0a59da",
+			"keccak256": "0xa7a5f10a64a31d76c56c842d6b6c8a69bee119c7ddfec0420ba869f3a154710d",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d9760cf7dc8d72a7b696f430b980663a5f331e5627ba0582866989c80f57e163",
-				"dweb:/ipfs/QmVtw7J3V5CzR2gtUhghdcE8jfupVWcPTR5RWguRwKMjfb"
+				"bzz-raw://d5f39af7f9e1f4ebf09c890889a49ec08ebfc01f661e85f5b9ba676ee061ef6d",
+				"dweb:/ipfs/Qma4rw8wTVQvkeo3EkQiuAdkmHd4JAndT2rQ9oqPXZVRa7"
 			]
 		}
 	},

@@ -70,6 +70,17 @@
 				"type": "error"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					}
+				],
+				"name": "NotAnAuditor",
+				"type": "error"
+			},
+			{
 				"anonymous": false,
 				"inputs": [
 					{
@@ -169,7 +180,7 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "user",
+						"name": "user_",
 						"type": "address"
 					}
 				],
@@ -201,7 +212,7 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "user",
+						"name": "user_",
 						"type": "address"
 					}
 				],
@@ -220,7 +231,7 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "user",
+						"name": "user_",
 						"type": "address"
 					}
 				],
@@ -263,6 +274,19 @@
 			},
 			{
 				"inputs": [],
+				"name": "s_owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "s_withdrawLimit",
 				"outputs": [
 					{
@@ -278,7 +302,7 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "amount",
+						"name": "amount_",
 						"type": "uint256"
 					}
 				],
@@ -293,18 +317,27 @@
 			"kind": "dev",
 			"methods": {
 				"getBalance(address)": {
-					"details": "Esta función garantiza que toda la información es auditable"
+					"details": "Esta función garantiza que toda la información es auditable",
+					"params": {
+						"user_": "Usuario que se quiere auditar"
+					}
 				},
 				"getDeposits(address)": {
-					"details": "Esta función garantiza que toda la información es auditable"
+					"details": "Esta función garantiza que toda la información es auditable",
+					"params": {
+						"user_": "Usuario que se quiere auditar"
+					}
 				},
 				"getWithdrawals(address)": {
-					"details": "Esta función garantiza que toda la información es auditable"
+					"details": "Esta función garantiza que toda la información es auditable",
+					"params": {
+						"user_": "Usuario que se quiere auditar"
+					}
 				},
 				"withdraw(uint256)": {
 					"details": "Sólo se puede depositar un valor mayor a 0, siempre que no se supere el bankCap",
 					"params": {
-						"amount": "Cantidad que se quiere extraer. Debe ser <= al balance y al límite de extracción"
+						"amount_": "Cantidad que se quiere extraer. Debe ser <= al balance y al límite de extracción"
 					}
 				}
 			},
@@ -315,19 +348,38 @@
 			"errors": {
 				"DepositNotAllowed(address,uint256)": [
 					{
-						"notice": "error emitido cuando se intenta depositar una cantidad inválida (=0, o la cuenta superaría el bankCap)"
+						"notice": "Error emitido cuando se intenta depositar una cantidad inválida (=0, o la cuenta superaría el bankCap)"
 					}
 				],
 				"ExtractionNotAllowed(address,uint256)": [
 					{
-						"notice": "error emitido cuando se intenta extraer una cantidad inválda (<=0, >=saldo, >límite)"
+						"notice": "Error emitido cuando se intenta extraer una cantidad inválda (<=0, >=saldo, >límite)"
 					}
 				],
 				"ExtractionReverted(address,uint256,bytes)": [
 					{
-						"notice": "error emitido cuando falla una extracción"
+						"notice": "Error emitido cuando falla una extracción"
+					}
+				],
+				"NotAnAuditor(address)": [
+					{
+						"notice": "Error emitido al querer auditar y no tener el permiso"
 					}
 				]
+			},
+			"events": {
+				"DepositRequest(address,uint256)": {
+					"notice": "Evento emitido al intentar depositar"
+				},
+				"Deposited(address,uint256)": {
+					"notice": "Evento emitido al depositar exitosamente"
+				},
+				"Extracted(address,uint256)": {
+					"notice": "Evento emitido al extraer exitosamente"
+				},
+				"ExtractionRequest(address,uint256)": {
+					"notice": "Evento emitido al intentar extraer"
+				}
 			},
 			"kind": "user",
 			"methods": {
@@ -352,11 +404,20 @@
 				"getWithdrawals(address)": {
 					"notice": "Función pública para ver la cantidad de extracciones que algún usuario hizo"
 				},
+				"s_bankCap()": {
+					"notice": "Límite de balance por cuenta"
+				},
+				"s_owner()": {
+					"notice": "Dueño del contrato, auditor del mismo"
+				},
+				"s_withdrawLimit()": {
+					"notice": "Límite de extracción por cuenta"
+				},
 				"withdraw(uint256)": {
 					"notice": "Función para hacer un depósito"
 				}
 			},
-			"notice": "Contrato para el TP Final del Módulo 2 del curso de EthKipu",
+			"notice": "Contrato para el TP Final del Módulo 2 del curso de EthKipuEs una simulación de banco con depósitos y extracción, auditable por el dueño del contrato",
 			"version": 1
 		}
 	},
@@ -377,11 +438,11 @@
 	},
 	"sources": {
 		"contracts/KipuBank.sol": {
-			"keccak256": "0xa7a5f10a64a31d76c56c842d6b6c8a69bee119c7ddfec0420ba869f3a154710d",
+			"keccak256": "0x651c04f06d6cbdfb167b7651a20e6d41275d6b9c5202f33e769ce2088598664a",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d5f39af7f9e1f4ebf09c890889a49ec08ebfc01f661e85f5b9ba676ee061ef6d",
-				"dweb:/ipfs/Qma4rw8wTVQvkeo3EkQiuAdkmHd4JAndT2rQ9oqPXZVRa7"
+				"bzz-raw://ee6d17015895e26e114f5a983a7afc36ff5e9b734e07f05b137ab6c10bf001e4",
+				"dweb:/ipfs/QmcBbZJjjB2fchu4h9t4qZAVhJVWKkwNQ4jxZup2tRfZrp"
 			]
 		}
 	},

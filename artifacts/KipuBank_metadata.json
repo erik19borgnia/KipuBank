@@ -353,7 +353,7 @@
 				],
 				"ExtractionNotAllowed(address,uint256)": [
 					{
-						"notice": "Error emitido cuando se intenta extraer una cantidad inválda (<=0, >=saldo, >límite)"
+						"notice": "Error emitido cuando se intenta extraer una cantidad inválda (<=0, >saldo, >límite)"
 					}
 				],
 				"ExtractionReverted(address,uint256,bytes)": [
@@ -438,11 +438,11 @@
 	},
 	"sources": {
 		"contracts/KipuBank.sol": {
-			"keccak256": "0x651c04f06d6cbdfb167b7651a20e6d41275d6b9c5202f33e769ce2088598664a",
+			"keccak256": "0x64d97292cc7fcf41353ea44af91c967dff6b69fa81aff9b727856c910406fb58",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ee6d17015895e26e114f5a983a7afc36ff5e9b734e07f05b137ab6c10bf001e4",
-				"dweb:/ipfs/QmcBbZJjjB2fchu4h9t4qZAVhJVWKkwNQ4jxZup2tRfZrp"
+				"bzz-raw://b280497faeec56eecbbfad66ca16f232a77d58f7a6882098d6ad9cf79ffd3abe",
+				"dweb:/ipfs/QmdRCmsobrhR6CmWpA7FDYCCbGkWSQzxyibvmiL7F4nCk1"
 			]
 		}
 	},

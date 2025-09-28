@@ -21,9 +21,10 @@ contract KipuBank{
     ///@notice Límite de balance por cuenta
     uint128 public immutable s_bankCap;
     ///@notice Límite de extracción por cuenta
-    uint128 public immutable s_withdrawLimit = 10000000000000;
+    uint128 public immutable s_withdrawLimit = 1000000000000000000; //1.000.000.000.000.000.000
     // Que sean a lo mucho la mitad de lo máximo que podría tener el contrato es bastante razonable.
-    //10 billones (o 10 trillions) necesita 44 bits, sobra bastante pero por coherencia se lo deja uint128
+    //1 trillón (o 1 quintillions) necesita menos de 128 bits, pero por coherencia se lo deja uint128
+    //Acomodado a un número más razonable. Es equivalente a 0.1 ETH.
 
     ///@notice Evento emitido al intentar depositar
     event DepositRequest(address from, uint amount);
@@ -36,7 +37,7 @@ contract KipuBank{
 
     ///@notice Error emitido cuando se intenta depositar una cantidad inválida (=0, o la cuenta superaría el bankCap)
     error DepositNotAllowed(address to, uint amount);
-    ///@notice Error emitido cuando se intenta extraer una cantidad inválda (<=0, >=saldo, >límite)
+    ///@notice Error emitido cuando se intenta extraer una cantidad inválda (<=0, >saldo, >límite)
     error ExtractionNotAllowed(address to, uint amount);
     ///@notice Error emitido cuando falla una extracción
     error ExtractionReverted(address to, uint amount, bytes errorData);

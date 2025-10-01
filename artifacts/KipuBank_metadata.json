@@ -310,6 +310,10 @@
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
 			}
 		],
 		"devdoc": {
@@ -438,11 +442,11 @@
 	},
 	"sources": {
 		"contracts/KipuBank.sol": {
-			"keccak256": "0x64d97292cc7fcf41353ea44af91c967dff6b69fa81aff9b727856c910406fb58",
+			"keccak256": "0x3db3d9a7aae0e3c00c24e6308483dd1991b7a31708355f3123bf7bf7f4c7cac9",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://b280497faeec56eecbbfad66ca16f232a77d58f7a6882098d6ad9cf79ffd3abe",
-				"dweb:/ipfs/QmdRCmsobrhR6CmWpA7FDYCCbGkWSQzxyibvmiL7F4nCk1"
+				"bzz-raw://956b7845a8656421768e7aaf2de184a13171c503b88e983e34273ae81820d54a",
+				"dweb:/ipfs/QmcREwDzg3AftD65q4bLSN2ikrACgLfRC4pUmnrU8KdWGw"
 			]
 		}
 	},

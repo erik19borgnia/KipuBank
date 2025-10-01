@@ -54,6 +54,14 @@ contract KipuBank{
     }
 
     /**
+        *@notice Función receive para manejar depósitos directos
+		*@notice Esto garantiza la consistencia con las interacciones del contrato
+    */
+    receive() external payable {
+        deposit();
+    }
+
+    /**
         *@notice Función para hacer un depósito
 		*@notice Sólo se puede depositar un valor mayor a 0, siempre que no se supere el bankCap
     */
